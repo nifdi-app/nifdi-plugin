@@ -1,0 +1,54 @@
+name: contract
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # The pinned pair is what users install; `latest` is what will break it.
+    # Publishing a server release that invalidates a skill example should be
+    # detected here, not by an agent mid-diagram.
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm install --no-audit --no-fund
+      - run: npm run test:structure
+
+  pinned:
+    name: examples against the pinned server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - name: The pinned server must be published
+        run: |
+          spec=$(node -p "require('./.claude-plugin/plugin.json').mcpServers['nifdi-diagram'].args.at(-1)")
+          npm view "$spec" version >/dev/null 2>&1 || {
+            echo "::error::$spec is not published to npm. The manifest pins the server it installs, so the contract cannot run until that version is published."
+            exit 1
+          }
+      - run: npm install --no-audit --no-fund
+      # No NIFDI_MCP_SPEC: the harness launches the manifest's own command, so
+      # what CI proves and what a user installs are the same artifact.
+      - run: npm run test:examples
+
+  latest:
+    name: examples against @nifdi/mcp@latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm install --no-audit --no-fund
+      - run: npm run test:examples
+        env:
+          NIFDI_MCP_SPEC: "@nifdi/mcp@latest"

@@ -1,0 +1,17 @@
+{
+  "name": "nifdi-plugin",
+  "owner": {
+    "name": "Nifdi Systems Limited",
+    "url": "https://nifdi.app"
+  },
+  "description": "The nifdi diagram plugin: the nifdi MCP server plus the skills that teach it.",
+  "plugins": [
+    {
+      "name": "nifdi",
+      "source": "./",
+      "description": "Author block-and-connector diagrams as code. Bundles the nifdi MCP diagram server with the skills that teach the model, the placement grammar and the build loop.",
+      "category": "productivity",
+      "tags": ["diagram", "architecture", "aws", "azure", "gcp"]
+    }
+  ]
+}
