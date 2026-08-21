@@ -29,13 +29,20 @@ jobs:
       - uses: actions/setup-node@v4
         with: {node-version: 22}
       - name: The pinned server must be published
+        id: server
         run: |
           spec=$(node -p "require('./.claude-plugin/plugin.json').mcpServers['nifdi-diagram'].args.at(-1)")
           npm view "$spec" version >/dev/null 2>&1 || {
             echo "::error::$spec is not published to npm. The manifest pins the server it installs, so the contract cannot run until that version is published."
             exit 1
           }
+          echo "spec=$spec" >> "$GITHUB_OUTPUT"
       - run: npm install --no-audit --no-fund
+      # A bare runner has no typefaces and no icon packs, and the harness runs
+      # the server offline, so a face or a component absent here is a refusal
+      # rather than a fetch. Installed by the same server the examples run
+      # through, at the version they run through.
+      - run: npx -y ${{ steps.server.outputs.spec }} fetch-assets --role server --fonts --packs aws,azure,generic,google-cloud,iconoir
       # No NIFDI_MCP_SPEC: the harness launches the manifest's own command, so
       # what CI proves and what a user installs are the same artifact.
       - run: npm run test:examples
@@ -44,11 +51,12 @@ jobs:
     name: examples against @nifdi/mcp@latest
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    env:
+      NIFDI_MCP_SPEC: "@nifdi/mcp@latest"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: {node-version: 22}
       - run: npm install --no-audit --no-fund
+      - run: npx -y $NIFDI_MCP_SPEC fetch-assets --role server --fonts --packs aws,azure,generic,google-cloud,iconoir
       - run: npm run test:examples
-        env:
-          NIFDI_MCP_SPEC: "@nifdi/mcp@latest"
