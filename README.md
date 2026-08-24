@@ -4,7 +4,7 @@ Agent-led diagrams with fine-grained control. [nifdi](https://nifdi.app) gives
 coding agents tools to create and edit architecture, flow, system and network diagrams. It also
 bundles a visual web editor for precise, hands-on refinement. Ask your agent to open the
 editor—in its built-in browser (where supported) and choose the best
-interaction for each change.
+interaction for each change - type/speak or point with your mouse.
 
 Your agent and the editor work on the same structured `.nifdi.svg` file, so you can move
 between natural-language requests and WYSIWYG editing without flattening the diagram into a
