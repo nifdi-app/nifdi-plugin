@@ -1,0 +1,39 @@
+{
+  "name": "nifdi",
+  "version": "0.1.0",
+  "description": "Create and edit structured block-and-connector diagrams with nifdi tools and authoring skills.",
+  "author": {
+    "name": "Nifdi Systems Limited",
+    "url": "https://nifdi.app"
+  },
+  "homepage": "https://nifdi.app",
+  "repository": "https://github.com/nifdi-app/nifdi-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "diagram",
+    "architecture",
+    "mcp",
+    "aws",
+    "azure",
+    "gcp",
+    "diagrams-as-code"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "nifdi diagrams",
+    "shortDescription": "Create editable architecture and system diagrams.",
+    "longDescription": "Create and edit structured architecture, flow, system and network diagrams with nifdi MCP tools and diagram-authoring skills.",
+    "developerName": "Nifdi Systems Limited",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "websiteURL": "https://nifdi.app",
+    "defaultPrompt": [
+      "Create a three-tier web architecture diagram.",
+      "Recreate this image as an editable nifdi diagram.",
+      "Improve the layout and styling of this nifdi diagram."
+    ]
+  }
+}

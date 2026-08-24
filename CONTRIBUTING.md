@@ -4,6 +4,21 @@ This repo holds the *teaching* layer for nifdi diagrams. Contributions are welco
 especially provider conventions, worked recipes, and genre skills (flowcharts, network
 diagrams, sequence-style layouts).
 
+The MCP server remains usable without these skills, because a raw MCP client never sees them.
+Nothing required for correct tool use therefore belongs only in a skill: tool behaviour,
+accepted inputs and errors stay in the server, while this repo carries deeper explanations,
+recipes, visual judgement and provider conventions.
+
+## Repository layout
+
+```
+.claude-plugin/                 Claude Code plugin and marketplace metadata
+.codex-plugin/ and .mcp.json   Codex plugin and MCP server metadata
+.agents/plugins/               the Codex repo marketplace
+skills/nifdi/                  the core skill and its progressively loaded references
+test/                          contract CI for every fenced skill example
+```
+
 ## The two rules
 
 ### 1. Testable, or cut
@@ -77,6 +92,11 @@ NIFDI_MCP_SPEC=../nifdi-app/mcp npm run test:examples
 
 `NIFDI_MCP_SPEC` accepts anything `npx --package` does: a directory, a `.tgz`, or an npm spec
 such as `@nifdi/mcp@latest`.
+
+The skills record the server version they were tested against, and both client manifests pin
+that same version so an install receives a coherent pair. A scheduled run also checks the skills
+against `@nifdi/mcp@latest`, catching a server release that invalidates a recipe before an agent
+encounters it while making a diagram.
 
 ## Adding a skill
 

@@ -1,93 +1,93 @@
-# nifdi plugin
+# nifdi diagrams for coding agents
 
-The [nifdi](https://nifdi.app) diagram plugin: the `@nifdi/mcp` diagram server bundled with the
-**skills** that teach it — the model in depth, the placement grammar, worked recipes, and the
-build loop that keeps what you build looking like what you meant.
+Create and edit architecture, flow, system and network diagrams from natural-language requests.
+[nifdi](https://nifdi.app) produces structured `.nifdi.svg` files that remain editable as
+diagrams rather than flattening them into generated images.
 
-The server is the verb surface. The skills are the craft. They install as one thing.
+This plugin combines the `@nifdi/mcp` diagram tools with skills for layout, labels, styling,
+connectors and a render-and-review workflow.
+
+## What you can do
+
+- Build a diagram from a description or an existing image.
+- Edit its structure, labels, connectors and visual style through follow-up requests.
+- Use provider icon libraries for architecture diagrams.
+- Keep the result as a structured file that nifdi and your coding agent can edit again.
 
 ## Install
 
-```sh
-claude plugin marketplace add nifdi-app/nifdi-plugin
-```
+The plugin installs both the nifdi MCP server and its diagram-authoring skills.
+
+### Codex
+
+Add the nifdi marketplace, then install the plugin:
 
 ```sh
+codex plugin marketplace add nifdi-app/nifdi-plugin
+codex plugin add nifdi@nifdi-plugin
+```
+
+Start a new Codex task after installation. You can also open `/plugins` in Codex CLI or use
+the Plugins browser in the ChatGPT desktop app.
+
+### Claude Code
+
+```sh
+claude plugin marketplace add nifdi-app/nifdi-plugin
 claude plugin install nifdi@nifdi-plugin
 ```
 
-That registers this repo as a marketplace and installs the plugin: the `nifdi-diagram` MCP
-server (launched with `npx -y @nifdi/mcp@<pinned>`) plus the skills, loaded progressively by
-your client as a task calls for them.
+Start a new Claude Code session after installation.
 
-Under Claude Code no directory configuration is needed — it injects the project root, and
-diagrams land as `.nifdi.svg` files in the repo you are working in. On a client that does not,
-set `NIFDI_ROOT` to the folder you want them in.
+### Other MCP and Agent Skills clients
 
-The server alone, without the teaching layer, remains installable exactly as before:
+If your client supports [Agent Skills](https://agentskills.io), install or copy the complete
+`skills/nifdi/` directory, including its `references/` directory. Then configure the nifdi
+server as a local MCP server using this stdio command:
 
 ```sh
-claude mcp add nifdi-diagram -s project -- npx -y @nifdi/mcp@latest
+npx -y @nifdi/mcp@latest
 ```
 
-## What is in here
+A common client configuration shape is:
 
-```
-.claude-plugin/plugin.json       the plugin: pins the server version, ships the skills
-.claude-plugin/marketplace.json  the single-plugin marketplace
-skills/nifdi/                    the core skill: the model, placement, styling, connectors, workflow
-test/                            contract CI — every fenced example, through the pinned server
-```
-
-The core skill's `SKILL.md` is an index at the same altitude as the server's own instructions;
-the depth lives in `skills/nifdi/references/`, which a client loads only when the path it took
-needs it.
-
-## The bare server still stands alone
-
-Skills are optional context — a raw MCP client never sees them. So **nothing an agent needs
-for correct tool use lives only in a skill**. What lives here is the unbounded layer: model
-deep-dives, recipes, style judgement, provider conventions. The contract — what each tool
-does, accepts and rejects — stays in the server, delivered to every client.
-
-The corollary matters more: **a behaviour defect is fixed in the server, never papered over
-in a skill.** A skill that teaches agents to route around a broken tool hides the defect from
-every bare-MCP client. See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Skills are contracts too
-
-Every fenced example in every skill is executed by CI through the published `@nifdi/mcp` — the
-same round-trip discipline the server applies to its own quoted examples, applied from the
-outside. A recipe whose XML no longer parses, or whose claimed outcome no longer matches what
-the tool reports, fails the build.
-
-The skills pin the server version they were tested against and the manifest pins both
-together, so an install is a coherent pair. A scheduled run tests the skills against
-`@nifdi/mcp@latest` as well, so a server release that invalidates a recipe is detected here
-rather than discovered by an agent mid-diagram.
-
-```sh
-npm install && npm test
+```json
+{
+  "mcpServers": {
+    "nifdi-diagram": {
+      "command": "npx",
+      "args": ["-y", "@nifdi/mcp@latest"],
+      "env": {
+        "NIFDI_ROOT": "/absolute/path/to/your/diagrams"
+      }
+    }
+  }
+}
 ```
 
-To run the contract against a server build that is not on npm — a local checkout, a tarball,
-a release candidate — point `NIFDI_MCP_SPEC` at it:
+MCP standardises the server protocol and stdio transport, but clients use different
+configuration files and installation interfaces. Translate the command, arguments and
+environment variables into your client's MCP configuration.
 
-```sh
-NIFDI_MCP_SPEC=../nifdi-app/mcp npm run test:examples
-```
+Clients that support MCP but not Agent Skills can still use the server; they simply will not
+receive the additional authoring guidance bundled with this repository.
 
-> **Status.** `@nifdi/mcp@0.1.1` — the version this repo pins — is not yet published to npm.
-> Until it is, the install commands above and the pinned CI job cannot resolve the server, and
-> the contract runs only via `NIFDI_MCP_SPEC`.
+## Try it
+
+Ask your agent:
+
+- “Create a three-tier web architecture diagram with a load balancer, API service and database.”
+- “Recreate this architecture screenshot as an editable nifdi diagram.”
+- “Add a cache beside the database and route read traffic through it.”
+
+When the client supplies its current project root, nifdi writes `.nifdi.svg` files there.
+Otherwise, set `NIFDI_ROOT` to the directory where diagrams should be stored.
 
 ## Contributing
 
-Provider conventions — what a *good* AWS, Azure or GCP diagram looks like, and which nifdi
-vocabulary produces it — are the flagship contribution surface: valuable, bounded, and needing
-no access to nifdi internals. [CONTRIBUTING.md](CONTRIBUTING.md) has the bar and how to run
-the checks locally.
+Provider conventions, worked recipes and skills for more diagram genres are especially welcome.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution guide and local checks.
 
 ## Licence
 
-[Apache-2.0](LICENSE). The nifdi application itself is closed; this teaching layer is open.
+Licensed under [Apache-2.0](LICENSE).

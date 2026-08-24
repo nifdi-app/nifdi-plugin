@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "nifdi-diagram": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@nifdi/mcp@0.1.1"
+      ]
+    }
+  }
+}

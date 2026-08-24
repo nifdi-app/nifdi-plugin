@@ -75,6 +75,35 @@ describe("the plugin manifests", () => {
     const spec = manifest.mcpServers["nifdi-diagram"].args.at(-1);
     assert.match(spec, /^@nifdi\/mcp@\d+\.\d+\.\d+$/, "the manifest must pin an exact @nifdi/mcp version");
   });
+
+  test("the Codex plugin installs the same skills and server", async () => {
+    const claude = await readManifest();
+    const codex = JSON.parse(await readFile(join(repoRoot, ".codex-plugin", "plugin.json"), "utf8"));
+    const mcp = JSON.parse(await readFile(join(repoRoot, ".mcp.json"), "utf8"));
+
+    assert.equal(codex.name, claude.name);
+    assert.equal(codex.version, claude.version);
+    assert.equal(codex.skills, "./skills/");
+    assert.equal(codex.mcpServers, "./.mcp.json");
+    assert.deepEqual(mcp.mcpServers, claude.mcpServers);
+  });
+
+  test("the Codex marketplace lists the plugin this repo holds", async () => {
+    const marketplace = JSON.parse(
+      await readFile(join(repoRoot, ".agents", "plugins", "marketplace.json"), "utf8"),
+    );
+    const manifest = JSON.parse(
+      await readFile(join(repoRoot, ".codex-plugin", "plugin.json"), "utf8"),
+    );
+    const entry = marketplace.plugins.find(plugin => plugin.name === manifest.name);
+
+    assert.ok(marketplace.name, "marketplace needs a name");
+    assert.ok(entry, `marketplace.json lists no plugin named "${manifest.name}"`);
+    assert.deepEqual(entry.source, {source: "local", path: "./"});
+    assert.equal(entry.policy.installation, "AVAILABLE");
+    assert.equal(entry.policy.authentication, "ON_INSTALL");
+    assert.equal(entry.category, "Productivity");
+  });
 });
 
 // The testable-or-cut bar, made mechanical: a fenced block in a skill either
