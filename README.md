@@ -1,18 +1,22 @@
-# nifdi diagrams for coding agents
+# nifdi — collaborative diagrams for you and your coding agent
 
-Create and edit architecture, flow, system and network diagrams from natural-language requests.
-[nifdi](https://nifdi.app) produces structured `.nifdi.svg` files that remain editable as
-diagrams rather than flattening them into generated images.
+Agent-led diagrams with fine-grained control. [nifdi](https://nifdi.app) gives
+coding agents tools to create and edit architecture, flow, system and network diagrams. It also
+bundles a visual web editor for precise, hands-on refinement. Ask your agent to open the
+editor—in its built-in browser (where supported) and choose the best
+interaction for each change.
 
-This plugin combines the `@nifdi/mcp` diagram tools with skills for layout, labels, styling,
-connectors and a render-and-review workflow.
+Your agent and the editor work on the same structured `.nifdi.svg` file, so you can move
+between natural-language requests and WYSIWYG editing without flattening the diagram into a
+generated image. This plugin combines the `@nifdi/mcp` diagram tools and bundled editor with
+skills for layout, labels, styling, connectors and a render-and-review workflow.
 
 ## What you can do
 
 - Build a diagram from a description or an existing image.
-- Edit its structure, labels, connectors and visual style through follow-up requests.
+- Make wholesale changes through follow-up requests, then fine-tune visually in the editor.
 - Use provider icon libraries for architecture diagrams.
-- Keep the result as a structured file that nifdi and your coding agent can edit again.
+- Keep the result as a structured file that both the editor and your coding agent can edit again.
 
 ## Install
 
@@ -79,6 +83,7 @@ Ask your agent:
 - “Create a three-tier web architecture diagram with a load balancer, API service and database.”
 - “Recreate this architecture screenshot as an editable nifdi diagram.”
 - “Add a cache beside the database and route read traffic through it.”
+- “Open the diagram editor so I can fine-tune the layout.”
 
 When the client supplies its current project root, nifdi writes `.nifdi.svg` files there.
 Otherwise, set `NIFDI_ROOT` to the directory where diagrams should be stored.
