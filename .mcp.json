@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "@nifdi/mcp@0.1.1"
+        "@nifdi/mcp@0.2.0"
       ]
     }
   }

@@ -93,7 +93,9 @@ export async function runExample(session, example, states) {
 // that survives both is a taught fragment.
 async function runXmlExample(session, example, diagramId, context, tool) {
   const document = tool === "set_diagram" ? example.body : wrapFragment(example.body);
-  const preflight = parseReport((await session.callOrThrow("normalize_diagram", {xml: document}, context)).text);
+  const preflight = parseReport(
+    (await session.callOrThrow("normalize_diagram", {xml: document, diagramId}, context)).text,
+  );
   assertNoErrors(preflight, context, "normalize_diagram");
   if (tool === "normalize_diagram") {
     return assertExpected(example, JSON.stringify(preflight));
@@ -108,7 +110,9 @@ function wrapFragment(fragment) {
 
 async function runPathExample(session, example, diagramId, context) {
   const document = wrapFragment(`${PATH_SEED}${example.body}`);
-  const report = parseReport((await session.callOrThrow("normalize_diagram", {xml: document}, context)).text);
+  const report = parseReport(
+    (await session.callOrThrow("normalize_diagram", {xml: document, diagramId}, context)).text,
+  );
   assertNoErrors(report, context, "normalize_diagram");
   assertExpected(example, JSON.stringify(report));
 }
@@ -129,7 +133,9 @@ async function runStyleExample(session, example, diagramId, context, state) {
     throw new Error(`${context}: set_style applied nothing — the selector reaches nothing in this diagram`);
   }
   const styled = state.document.replace("</diagram>", `<style>${example.body}</style></diagram>`);
-  const parsed = parseReport((await session.callOrThrow("normalize_diagram", {xml: styled}, context)).text);
+  const parsed = parseReport(
+    (await session.callOrThrow("normalize_diagram", {xml: styled, diagramId}, context)).text,
+  );
   assertNoErrors(parsed, context, "the same sheet inside a <style> block");
   assertExpected(example, JSON.stringify(report));
 }

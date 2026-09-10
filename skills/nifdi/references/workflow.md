@@ -5,8 +5,9 @@ works, and the habits that make each step cheap.
 
 ## The loop
 
-1. **`create_diagram`** (or `list_diagrams` / `select_diagram` to pick up an existing one).
-   Diagrams live as `.nifdi.svg` files in the workspace directory.
+1. **`create_diagram`** and keep the returned id, or use **`list_diagrams`** to find an
+   existing one's id. Diagrams live as `.nifdi.svg` files in the workspace, including nested
+   folders.
 2. **Structure first.** `insert` the blocks, nested as the picture nests, with labels
    *attached* — not positioned. Omit geometry you do not care about.
 3. **Wire it.** `connect`, choosing `chain` when direction matters.
@@ -17,6 +18,17 @@ works, and the habits that make each step cheap.
 
 Structure before style, always. Styling a layout you have not looked at is styling something
 you cannot see.
+
+## The id is the session
+
+There is no current diagram and no remembered selection. Pass the id from `create_diagram` or
+`list_diagrams` as `diagramId` on every diagram-scoped call — including `get_diagram`,
+`normalize_diagram`, every edit, history, render and `editor_url`. A pasted editor URL is also a
+valid spelling of the same id.
+
+Keep that id in the working context rather than rediscovering it before every call. If a local
+file is moved, renamed or deleted outside nifdi, the old id refuses to recreate it at the old
+path; call `list_diagrams` to discover the new path.
 
 ## Rendering is how you find out
 
@@ -42,8 +54,8 @@ Two things not to do:
 - **Do not rasterize the augmented SVG yourself.** General-purpose rasterizers — librsvg,
   ImageMagick, Inkscape — drop or misrender effects such as drop-shadow and rounded borders,
   so a PNG converted that way is not what the diagram looks like.
-- **`open_editor` is for showing a human**, not for looking yourself. It opens a live browser
-  editor; it does not put the picture in front of you.
+- **`editor_url` is for showing a human**, not for looking yourself. It returns the live
+  editor's URL and opens nothing; give the URL to the user or navigate to it with a browser tool.
 
 The render's accompanying text reports the pixel size, the diagram's own size, the scale, and
 any artwork shown as a placeholder. Read it. Ask for a larger `width` only when you need to
@@ -91,11 +103,16 @@ Correcting forwards leaves the mistake in the geometry; undoing removes it.
 
 ## Working in a folder
 
-The server treats a directory as the workspace: `create_diagram`, `list_diagrams` and
-`select_diagram` map onto `.nifdi.svg` files in it. Under Claude Code that directory is the
-project root, so diagrams land in the repo you are working in and diff, review and merge like
-any other file — the git drivers diff and merge them on the canonical XML rather than on the
-rendered picture.
+The server treats a directory as the workspace. `create_diagram` writes a new `.nifdi.svg` in
+its root. `list_diagrams` finds `*.nifdi.svg` at any depth, plus plain `*.svg` files directly in
+the root; it does not enter hidden folders, `node_modules` or symlinks. A diagram's id is its
+POSIX path relative to the workspace root — for example
+`design/architecture/system.nifdi.svg` — never an absolute path or one containing `..` or
+backslashes.
+
+When the client supplies its project root, diagrams land in the repo you are working in and
+diff, review and merge like any other file — the git drivers diff and merge them on the
+canonical XML rather than on the rendered picture.
 
 That has a design consequence worth acting on: a diagram in a repo is a **maintained
 artifact**. Name your blocks with ids that will still make sense to whoever edits it next,

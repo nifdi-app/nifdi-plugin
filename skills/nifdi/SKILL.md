@@ -3,7 +3,7 @@ name: nifdi
 description: Author and edit nifdi block-and-connector diagrams — architecture diagrams, flowcharts, system and network diagrams — through the nifdi-diagram MCP server. Use when building or changing a diagram of boxes and arrows, recreating one from a picture or a written description, or when a task mentions nifdi, .nifdi.svg files, diagrams-as-code, or the nifdi-diagram tools. Covers the block model, containment versus attachment, the placement grammar for labels and badges, the semantic style vocabulary, connectors and their labels, and the render-and-fix loop that keeps what you build looking like what you meant.
 license: Apache-2.0
 metadata:
-  nifdi-mcp-version: "0.1.1"
+  nifdi-mcp-version: "0.2.0"
 ---
 
 # Building diagrams with nifdi
@@ -28,6 +28,16 @@ Blocks carry `pos="x y"` and `size="w h"`, **both optional**. Omitted geometry i
 by the server; a declared `pos` arranges blocks *against one another* rather than fixing
 canvas coordinates. Style is a `<style>` block of `selector { property: value; }` rules with
 nifdi's own semantic property names — not CSS.
+
+## Keep the diagram id
+
+There is no current diagram. `create_diagram` returns the id every diagram-scoped tool needs;
+for an existing diagram, get that id from `list_diagrams`. Keep it and pass it as `diagramId`
+on every call that reads, edits, preflights or renders that diagram. A pasted editor URL is also
+accepted wherever `diagramId` is taken.
+
+In a local workspace the id is the diagram's POSIX path relative to the workspace root. If the
+file is moved or renamed, the old id stops working; call `list_diagrams` to find its new one.
 
 ```xml tool=insert
 <container id="vpc" size="400 240"><text place="on top-edge">Production VPC</text>
@@ -68,8 +78,10 @@ corner badge, a title astride a border that carries its own label): **[reference
 
 Work incrementally and look at what you made.
 
-1. **`create_diagram`** (or `select_diagram` for an existing one).
-2. **`insert`** blocks — a fragment at a time, nested as the picture nests. Not
+1. **`create_diagram`** and keep the returned id, or use **`list_diagrams`** to find an
+   existing one's id.
+2. Pass that **`diagramId`** to every diagram-scoped call below. **`insert`** blocks — a
+   fragment at a time, nested as the picture nests. Not
    `set_diagram`; reserve that for replacing a whole diagram.
 3. **`connect`** to wire them.
 4. **`set_style`** to style them. It is the most forgiving styling path and reports back
@@ -99,6 +111,8 @@ blind, and every sweep that worked blind shipped a diagram it would not have shi
 
 - **Read before you write.** `get_diagram` is the source of truth, and its output is the
   canonical shape to copy when writing XML back.
+- **Keep the handle.** There is no remembered selection; carry `diagramId` from
+  `create_diagram` or `list_diagrams` through the whole build loop.
 - **Preflight anything large.** `normalize_diagram` parses without editing and reports what
   it would do. What it accepts, `insert` and `set_diagram` honour.
 - **Believe the result, not your intent.** Every tool reports what actually happened, and

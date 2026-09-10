@@ -110,14 +110,17 @@ Text cannot be measured or drawn without the typeface's bytes. **Inter, Assistan
 Noto Sans are built in** — the families nifdi's own content and shipped icon libraries use,
 so an ordinary diagram never asks you for a font.
 
-Any other family arrives through `add_font`, which takes Google Fonts names. A family whose
-bytes cannot be had **fails and names what is owed** — it never silently substitutes Inter,
-because a diagram measured against a font it does not use has wrong wrap widths, wrong block
-sizes and wrong baselines everywhere.
+In an online local workspace, the server fetches another Google Fonts face the first time a
+diagram uses it. If that fetch is unavailable or the server is offline, the edit **fails and
+names the family and weight still owed** — it never silently substitutes Inter, because a
+diagram measured against a font it does not use has wrong wrap widths, wrong block sizes and
+wrong baselines everywhere.
 
-So: if you set `font-family` to something outside the built-in four, `add_font` it first.
-Reading is exempt — `get_diagram` on a diagram with missing fonts still works, which is how
-you find out what to supply.
+When `add_font` is offered, it is the manual route: pass the Google Fonts family, the face's
+weight, and base64-encoded TTF or OTF bytes. WOFF and WOFF2 are not accepted. A shared remote
+deployment may withhold this process-global tool, so believe the advertised tool list rather
+than assuming it exists. Reading is exempt — `get_diagram` on a diagram with missing fonts still
+works, which is how you find out what to supply.
 
 ## What the diagram is on disk
 

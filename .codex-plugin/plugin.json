@@ -1,6 +1,6 @@
 {
   "name": "nifdi",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Create and edit structured block-and-connector diagrams with nifdi tools and authoring skills.",
   "author": {
     "name": "Nifdi Systems Limited",
