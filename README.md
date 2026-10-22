@@ -1,4 +1,12 @@
-# nifdi — collaborative diagrams for you and your coding agent
+<a href="https://nifdi.app"><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://nifdi.app/images/longtail_logo.svg">
+  <img src="https://nifdi.app/images/longtail_logo-black.svg" alt="nifdi" height="80">
+</picture></a>
+
+# nifdi™ — collaborative diagrams for you and your coding agent
+
+**[Download nifdi](https://github.com/nifdi-app/nifdi-plugin/releases/latest/download/nifdi-plugin.zip)**
+— the plugin's skills and manifests as a zip, or browse [all releases](https://github.com/nifdi-app/nifdi-plugin/releases).
 
 Agent-led diagrams with fine-grained control. [nifdi](https://nifdi.app) gives
 coding agents tools to create and edit architecture, flow, system and network diagrams. It also
@@ -45,9 +53,10 @@ Start a new Claude Code session after installation.
 
 ### Other MCP and Agent Skills clients
 
-If your client supports [Agent Skills](https://agentskills.io), install or copy the complete
-`skills/nifdi/` directory, including its `references/` directory. Then configure the nifdi
-server as a local MCP server using this stdio command:
+If your client supports [Agent Skills](https://agentskills.io),
+[download the latest release](https://github.com/nifdi-app/nifdi-plugin/releases/latest/download/nifdi-plugin.zip)
+and install or copy the complete `skills/nifdi/` directory, including its `references/`
+directory. Then configure the nifdi server as a local MCP server using this stdio command:
 
 ```sh
 npx -y @nifdi/mcp@latest
@@ -96,3 +105,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution guide and local chec
 ## Licence
 
 Licensed under [Apache-2.0](LICENSE).
+
+nifdi™ is a trademark of Nifdi Systems Limited. The licence does not grant permission to use it.

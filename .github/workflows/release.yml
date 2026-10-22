@@ -1,0 +1,20 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The README links releases/latest/download/nifdi-plugin.zip, so every
+      # release must carry an asset of exactly this name.
+      - run: git archive --format=zip --prefix=nifdi-plugin/ -o nifdi-plugin.zip HEAD
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" nifdi-plugin.zip --title "nifdi $GITHUB_REF_NAME" --generate-notes
