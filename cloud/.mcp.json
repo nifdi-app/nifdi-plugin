@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "nifdi": {
-      "type": "http",
-      "url": "https://nifdi.app/api/mcp"
-    }
-  }
-}

@@ -1,0 +1,31 @@
+{
+  "name": "nifdi-local",
+  "displayName": "nifdi diagrams (local files)",
+  "version": "0.3.0",
+  "description": "Author block-and-connector diagrams as code, as .nifdi.svg files in your project. Bundles the local nifdi MCP server with the skills that teach the model, the placement grammar and the build loop. No account needed.",
+  "author": {
+    "name": "Nifdi Systems Limited",
+    "url": "https://nifdi.app"
+  },
+  "homepage": "https://nifdi.app",
+  "repository": "https://github.com/nifdi-app/nifdi-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "diagram",
+    "architecture",
+    "mcp",
+    "aws",
+    "azure",
+    "gcp",
+    "diagrams-as-code"
+  ],
+  "mcpServers": {
+    "nifdi-diagram": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@nifdi/mcp@0.3.0"
+      ]
+    }
+  }
+}

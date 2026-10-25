@@ -6,7 +6,7 @@ import {collectSkillExamples} from "./lib/examples.mjs";
 import {TOOLS} from "./lib/examples.mjs";
 import {describeExample} from "./lib/execute.mjs";
 import {SPEC_FIELDS, parseFrontmatter, validateName} from "./lib/frontmatter.mjs";
-import {readManifest, repoRoot} from "./lib/server.mjs";
+import {readLocalManifest, repoRoot} from "./lib/server.mjs";
 
 const skillsRoot = join(repoRoot, "skills");
 
@@ -45,7 +45,7 @@ describe("every skill is a valid Agent Skill", () => {
   });
 
   test("every skill pins the server version the manifest installs", async () => {
-    const manifest = await readManifest();
+    const manifest = await readLocalManifest();
     const pinned = manifest.mcpServers["nifdi-diagram"].args.at(-1).replace("@nifdi/mcp@", "");
     for (const directory of await skillDirectories()) {
       const file = join(directory, "SKILL.md");
@@ -53,7 +53,7 @@ describe("every skill is a valid Agent Skill", () => {
       assert.equal(
         fields.metadata?.["nifdi-mcp-version"],
         pinned,
-        `${file}: pins a different server version than .claude-plugin/plugin.json`,
+        `${file}: pins a different server version than local/.claude-plugin/plugin.json`,
       );
     }
   });
@@ -62,8 +62,8 @@ describe("every skill is a valid Agent Skill", () => {
 const HOSTED_SERVER = {nifdi: {type: "http", url: "https://nifdi.app/api/mcp"}};
 
 const PLUGINS = [
-  {name: "nifdi", directory: "cloud", server: "nifdi"},
-  {name: "nifdi-local", directory: ".", server: "nifdi-diagram"},
+  {name: "nifdi", directory: ".", server: "nifdi"},
+  {name: "nifdi-local", directory: "local", server: "nifdi-diagram"},
 ];
 
 async function readJson(...segments) {
@@ -93,13 +93,13 @@ describe("the plugin manifests", () => {
   });
 
   test("the local server is pinned, not floating", async () => {
-    const manifest = await readManifest();
+    const manifest = await readLocalManifest();
     const spec = manifest.mcpServers["nifdi-diagram"].args.at(-1);
     assert.match(spec, /^@nifdi\/mcp@\d+\.\d+\.\d+$/, "the manifest must pin an exact @nifdi/mcp version");
   });
 
   test("the hosted plugin connects to production nifdi over HTTP, and to nothing else", async () => {
-    const manifest = await readJson("cloud", ".claude-plugin", "plugin.json");
+    const manifest = await readJson(".claude-plugin", "plugin.json");
     assert.deepEqual(manifest.mcpServers, HOSTED_SERVER);
   });
 
@@ -144,13 +144,13 @@ describe("the plugin manifests", () => {
     }
   });
 
-  test("the hosted plugin's skills are an exact copy of skills/ (npm run sync:skills)", async () => {
-    const copy = join(repoRoot, "cloud", "skills");
+  test("the local plugin's skills are an exact copy of skills/ (npm run sync:skills)", async () => {
+    const copy = join(repoRoot, "local", "skills");
     const files = await filesBelow(skillsRoot);
     assert.deepEqual(await filesBelow(copy), files);
     for (const file of files) {
       const original = await readFile(join(skillsRoot, file), "utf8");
-      assert.equal(await readFile(join(copy, file), "utf8"), original, `cloud/skills/${file} differs from skills/${file}`);
+      assert.equal(await readFile(join(copy, file), "utf8"), original, `local/skills/${file} differs from skills/${file}`);
     }
   });
 });

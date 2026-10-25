@@ -7,8 +7,8 @@ import {StdioClientTransport} from "@modelcontextprotocol/sdk/client/stdio.js";
 
 export const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
-export async function readManifest() {
-  return JSON.parse(await readFile(join(repoRoot, ".claude-plugin", "plugin.json"), "utf8"));
+export async function readLocalManifest() {
+  return JSON.parse(await readFile(join(repoRoot, "local", ".claude-plugin", "plugin.json"), "utf8"));
 }
 
 // The harness runs the server the manifest installs, so what CI proves and what
@@ -16,7 +16,7 @@ export async function readManifest() {
 // with a local build or a tarball, which is how the pair is tested before a
 // release of either half reaches npm.
 export async function serverCommand() {
-  const manifest = await readManifest();
+  const manifest = await readLocalManifest();
   const {command, args} = manifest.mcpServers["nifdi-diagram"];
   const override = process.env.NIFDI_MCP_SPEC;
   if (override === undefined) {

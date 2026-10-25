@@ -12,15 +12,15 @@ recipes, visual judgement and provider conventions.
 ## Repository layout
 
 ```
-.claude-plugin/                 the Claude Code marketplace, and the nifdi-local plugin
-.codex-plugin/ and .mcp.json   the nifdi-local plugin for Codex, and its local MCP server
+.claude-plugin/                 the Claude Code marketplace, and the nifdi plugin
+.codex-plugin/ and .mcp.json   the nifdi plugin for Codex, and its hosted MCP server
 .agents/plugins/               the Codex repo marketplace
-cloud/                         the nifdi plugin: the hosted MCP server, for both clients
+local/                         the nifdi-local plugin: the local MCP server, for both clients
 skills/nifdi/                  the core skill and its progressively loaded references
 test/                          contract CI for every fenced skill example
 ```
 
-Edit the skills in `skills/` only. `cloud/skills/` is a copy, because each plugin is its own
+Edit the skills in `skills/` only. `local/skills/` is a copy, because each plugin is its own
 directory and neither client reads a skill from outside it. After an edit, run
 `npm run sync:skills`; CI fails while the two trees differ.
 
@@ -130,8 +130,7 @@ Constraints CI enforces:
   claude.ai and the Skills API, and cross-client reach is why the skills are in this format at
   all.
 - `SKILL.md` body ≤500 lines. Move depth into `references/`.
-- `metadata.nifdi-mcp-version` matches the server pinned in `.claude-plugin/plugin.json` (the
-  local plugin's).
+- `metadata.nifdi-mcp-version` matches the server pinned in `local/.claude-plugin/plugin.json`.
 
 Keep references one level deep from `SKILL.md`, and keep each one focused — an agent loads a
 whole reference file to answer one question.
