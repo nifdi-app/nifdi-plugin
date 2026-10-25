@@ -8,6 +8,18 @@
       "name": "nifdi",
       "source": {
         "source": "local",
+        "path": "./cloud"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "nifdi-local",
+      "source": {
+        "source": "local",
         "path": "./"
       },
       "policy": {

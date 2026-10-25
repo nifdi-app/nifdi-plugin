@@ -6,8 +6,7 @@ works, and the habits that make each step cheap.
 ## The loop
 
 1. **`create_diagram`** and keep the returned id, or use **`list_diagrams`** to find an
-   existing one's id. Diagrams live as `.nifdi.svg` files in the workspace, including nested
-   folders.
+   existing one's id.
 2. **Structure first.** `insert` the blocks, nested as the picture nests, with labels
    *attached* — not positioned. Omit geometry you do not care about.
 3. **Wire it.** `connect`, choosing `chain` when direction matters.
@@ -26,9 +25,10 @@ There is no current diagram and no remembered selection. Pass the id from `creat
 `normalize_diagram`, every edit, history, render and `editor_url`. A pasted editor URL is also a
 valid spelling of the same id.
 
-Keep that id in the working context rather than rediscovering it before every call. If a local
-file is moved, renamed or deleted outside nifdi, the old id refuses to recreate it at the old
-path; call `list_diagrams` to discover the new path.
+Keep that id in the working context rather than rediscovering it before every call. When an id
+stops working, call `list_diagrams` rather than guessing:
+[local-workspace.md](local-workspace.md) and [cloud.md](cloud.md) say how each server's ids can
+change or disappear.
 
 ## Rendering is how you find out
 
@@ -100,25 +100,6 @@ sentence.
 
 Prefer undo to a corrective edit when a call did something structural you did not intend.
 Correcting forwards leaves the mistake in the geometry; undoing removes it.
-
-## Working in a folder
-
-The server treats a directory as the workspace. `create_diagram` writes a new `.nifdi.svg` in
-its root. `list_diagrams` finds `*.nifdi.svg` at any depth, plus plain `*.svg` files directly in
-the root; it does not enter hidden folders, `node_modules` or symlinks. A diagram's id is its
-POSIX path relative to the workspace root — for example
-`design/architecture/system.nifdi.svg` — never an absolute path or one containing `..` or
-backslashes.
-
-When the client supplies its project root, diagrams land in the repo you are working in and
-diff, review and merge like any other file — the git drivers diff and merge them on the
-canonical XML rather than on the rendered picture.
-
-That has a design consequence worth acting on: a diagram in a repo is a **maintained
-artifact**. Name your blocks with ids that will still make sense to whoever edits it next,
-use classes to mark out subsystems rather than styling twenty containers individually, and
-express structure through containment and attachment so that the next person's edit does not
-scatter the labels.
 
 ## When something is genuinely not expressible
 

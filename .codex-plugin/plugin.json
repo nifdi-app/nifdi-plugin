@@ -1,7 +1,7 @@
 {
-  "name": "nifdi",
-  "version": "0.2.0",
-  "description": "Create and edit structured block-and-connector diagrams with nifdi tools and authoring skills.",
+  "name": "nifdi-local",
+  "version": "0.3.0",
+  "description": "Create and edit structured block-and-connector diagrams as .nifdi.svg files in your project, with the local nifdi MCP server and authoring skills.",
   "author": {
     "name": "Nifdi Systems Limited",
     "url": "https://nifdi.app"
@@ -21,9 +21,9 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "nifdi diagrams",
-    "shortDescription": "Create editable architecture and system diagrams.",
-    "longDescription": "Create and edit structured architecture, flow, system and network diagrams with nifdi MCP tools and diagram-authoring skills.",
+    "displayName": "nifdi diagrams (local files)",
+    "shortDescription": "Editable diagrams as files in your project.",
+    "longDescription": "Create and edit structured architecture, flow, system and network diagrams as .nifdi.svg files in your project, with the local nifdi MCP server and diagram-authoring skills. No account needed.",
     "developerName": "Nifdi Systems Limited",
     "category": "Productivity",
     "capabilities": [
