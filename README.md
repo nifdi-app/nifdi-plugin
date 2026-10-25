@@ -28,19 +28,19 @@ skills for layout, labels, styling, connectors and a render-and-review workflow.
 
 ## Install
 
-The plugin installs both the nifdi MCP server and its diagram-authoring skills.
+This marketplace holds two plugins. Each installs one nifdi MCP server and the same
+diagram-authoring skills.
 
-### Codex
+| Plugin | Diagrams | Account |
+|---|---|---|
+| `nifdi` | in the nifdi cloud: shared, and edited live in the browser at nifdi.app | [nifdi Pro](https://nifdi.app/pricing); you sign in on first use |
+| `nifdi-local` | `.nifdi.svg` files in your project, which diff and merge like code | none |
 
-Add the nifdi marketplace, then install the plugin:
+Install whichever you need, or both: the skills say which to use for what.
 
-```sh
-codex plugin marketplace add nifdi-app/nifdi-plugin
-codex plugin add nifdi@nifdi-plugin
-```
-
-Start a new Codex task after installation. You can also open `/plugins` in Codex CLI or use
-the Plugins browser in the ChatGPT desktop app.
+> **Upgrading from 0.2?** The plugin called `nifdi` used to be the local one. It now connects
+> to the hosted server. To keep working on files in your project, install `nifdi-local`, and
+> uninstall `nifdi` unless you have nifdi Pro.
 
 ### Claude Code
 
@@ -49,14 +49,37 @@ claude plugin marketplace add nifdi-app/nifdi-plugin
 claude plugin install nifdi@nifdi-plugin
 ```
 
-Start a new Claude Code session after installation.
+Start a new session, run `/mcp`, choose `plugin:nifdi:nifdi` and sign in to nifdi in the
+browser. For local files, install `nifdi-local@nifdi-plugin` instead; it needs no sign-in.
+
+### Codex
+
+```sh
+codex plugin marketplace add nifdi-app/nifdi-plugin
+codex plugin add nifdi@nifdi-plugin
+codex mcp login nifdi
+```
+
+Start a new Codex task after installation. For local files, add `nifdi-local@nifdi-plugin`
+instead. You can also open `/plugins` in Codex CLI or use the Plugins browser in the ChatGPT
+desktop app.
+
+To sign in as a different nifdi account, sign out of nifdi in your browser first: otherwise the
+browser's existing session signs the client straight back in.
 
 ### Other MCP and Agent Skills clients
 
 If your client supports [Agent Skills](https://agentskills.io),
 [download the latest release](https://github.com/nifdi-app/nifdi-plugin/releases/latest/download/nifdi-plugin.zip)
 and install or copy the complete `skills/nifdi/` directory, including its `references/`
-directory. Then configure the nifdi server as a local MCP server using this stdio command:
+directory. Then configure a nifdi server. The hosted one is an HTTP MCP server that signs in with
+OAuth:
+
+```sh
+claude mcp add --transport http nifdi https://nifdi.app/api/mcp
+```
+
+The local one is a stdio server:
 
 ```sh
 npx -y @nifdi/mcp@latest
@@ -94,7 +117,7 @@ Ask your agent:
 - “Add a cache beside the database and route read traffic through it.”
 - “Open the diagram editor so I can fine-tune the layout.”
 
-When the client supplies its current project root, nifdi writes `.nifdi.svg` files there.
+With `nifdi-local`, nifdi writes `.nifdi.svg` files to the project root the client supplies.
 Otherwise, set `NIFDI_ROOT` to the directory where diagrams should be stored.
 
 ## Contributing

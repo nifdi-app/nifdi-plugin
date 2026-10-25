@@ -1,0 +1,39 @@
+{
+  "name": "nifdi-local",
+  "version": "0.3.0",
+  "description": "Create and edit structured block-and-connector diagrams as .nifdi.svg files in your project, with the local nifdi MCP server and authoring skills.",
+  "author": {
+    "name": "Nifdi Systems Limited",
+    "url": "https://nifdi.app"
+  },
+  "homepage": "https://nifdi.app",
+  "repository": "https://github.com/nifdi-app/nifdi-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "diagram",
+    "architecture",
+    "mcp",
+    "aws",
+    "azure",
+    "gcp",
+    "diagrams-as-code"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "nifdi diagrams (local files)",
+    "shortDescription": "Editable diagrams as files in your project.",
+    "longDescription": "Create and edit structured architecture, flow, system and network diagrams as .nifdi.svg files in your project, with the local nifdi MCP server and diagram-authoring skills. No account needed.",
+    "developerName": "Nifdi Systems Limited",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "websiteURL": "https://nifdi.app",
+    "defaultPrompt": [
+      "Create a three-tier web architecture diagram.",
+      "Recreate this image as an editable nifdi diagram.",
+      "Improve the layout and styling of this nifdi diagram."
+    ]
+  }
+}

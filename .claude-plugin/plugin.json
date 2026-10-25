@@ -1,8 +1,8 @@
 {
   "name": "nifdi",
   "displayName": "nifdi diagrams",
-  "version": "0.2.0",
-  "description": "Author block-and-connector diagrams as code. Bundles the nifdi MCP diagram server with the skills that teach the model, the placement grammar and the build loop.",
+  "version": "0.3.0",
+  "description": "Author block-and-connector diagrams in the nifdi cloud, shared and edited live in the browser. Connects to the hosted nifdi MCP server (nifdi Pro, sign in with OAuth) and bundles the skills that teach the model, the placement grammar and the build loop.",
   "author": {
     "name": "Nifdi Systems Limited",
     "url": "https://nifdi.app"
@@ -10,11 +10,19 @@
   "homepage": "https://nifdi.app",
   "repository": "https://github.com/nifdi-app/nifdi-plugin",
   "license": "Apache-2.0",
-  "keywords": ["diagram", "architecture", "mcp", "aws", "azure", "gcp", "diagrams-as-code"],
+  "keywords": [
+    "diagram",
+    "architecture",
+    "mcp",
+    "aws",
+    "azure",
+    "gcp",
+    "diagrams-as-code"
+  ],
   "mcpServers": {
-    "nifdi-diagram": {
-      "command": "npx",
-      "args": ["-y", "@nifdi/mcp@0.2.0"]
+    "nifdi": {
+      "type": "http",
+      "url": "https://nifdi.app/api/mcp"
     }
   }
 }

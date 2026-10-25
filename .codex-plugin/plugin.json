@@ -1,7 +1,7 @@
 {
   "name": "nifdi",
-  "version": "0.2.0",
-  "description": "Create and edit structured block-and-connector diagrams with nifdi tools and authoring skills.",
+  "version": "0.3.0",
+  "description": "Create and edit structured block-and-connector diagrams in the nifdi cloud, with the hosted nifdi MCP server and authoring skills.",
   "author": {
     "name": "Nifdi Systems Limited",
     "url": "https://nifdi.app"
@@ -22,8 +22,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "nifdi diagrams",
-    "shortDescription": "Create editable architecture and system diagrams.",
-    "longDescription": "Create and edit structured architecture, flow, system and network diagrams with nifdi MCP tools and diagram-authoring skills.",
+    "shortDescription": "Editable cloud diagrams, shared live in the browser.",
+    "longDescription": "Create and edit structured architecture, flow, system and network diagrams in the nifdi cloud, where they are shared and edited live in the browser. Connects to the hosted nifdi MCP server, part of nifdi Pro, and bundles diagram-authoring skills.",
     "developerName": "Nifdi Systems Limited",
     "category": "Productivity",
     "capabilities": [

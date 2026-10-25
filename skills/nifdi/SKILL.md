@@ -1,9 +1,9 @@
 ---
 name: nifdi
-description: Author and edit nifdi block-and-connector diagrams — architecture diagrams, flowcharts, system and network diagrams — through the nifdi-diagram MCP server. Use when building or changing a diagram of boxes and arrows, recreating one from a picture or a written description, or when a task mentions nifdi, .nifdi.svg files, diagrams-as-code, or the nifdi-diagram tools. Covers the block model, containment versus attachment, the placement grammar for labels and badges, the semantic style vocabulary, connectors and their labels, and the render-and-fix loop that keeps what you build looking like what you meant.
+description: Author and edit nifdi block-and-connector diagrams — architecture diagrams, flowcharts, system and network diagrams — through a nifdi MCP server: the hosted one (server "nifdi", diagrams in the nifdi cloud, a Pro account) or the local one (server "nifdi-diagram", .nifdi.svg files in the project). Use when building or changing a diagram of boxes and arrows, recreating one from a picture or a written description, or when a task mentions nifdi, a nifdi.app diagram link, .nifdi.svg files, diagrams-as-code, or the nifdi tools. Covers the block model, containment versus attachment, the placement grammar for labels and badges, the semantic style vocabulary, connectors and their labels, and the render-and-fix loop that keeps what you build looking like what you meant.
 license: Apache-2.0
 metadata:
-  nifdi-mcp-version: "0.2.0"
+  nifdi-mcp-version: "0.3.0"
 ---
 
 # Building diagrams with nifdi
@@ -36,8 +36,17 @@ for an existing diagram, get that id from `list_diagrams`. Keep it and pass it a
 on every call that reads, edits, preflights or renders that diagram. A pasted editor URL is also
 accepted wherever `diagramId` is taken.
 
-In a local workspace the id is the diagram's POSIX path relative to the workspace root. If the
-file is moved or renamed, the old id stops working; call `list_diagrams` to find its new one.
+What an id looks like, and what it means, depends on where the server keeps diagrams. Read one
+of these before your first `create_diagram`:
+
+| The tools come from | Diagrams are | Read |
+|---|---|---|
+| the server named `nifdi`, at `https://nifdi.app/api/mcp` | in the nifdi cloud; ids are short codes such as `Kq3vR8xTn2Wd` | [references/cloud.md](references/cloud.md) |
+| the server named `nifdi-diagram`, run by `npx @nifdi/mcp` | `.nifdi.svg` files in the project; ids are paths such as `design/system.nifdi.svg` | [references/local-workspace.md](references/local-workspace.md) |
+
+If both servers are connected, a diagram that belongs in the repository is local, and one the
+person shares or edits in the browser is cloud. Never copy a diagram from one to the other unless
+asked.
 
 ```xml tool=insert
 <container id="vpc" size="400 240"><text place="on top-edge">Production VPC</text>
@@ -106,6 +115,8 @@ blind, and every sweep that worked blind shipped a diagram it would not have shi
 | [references/styling.md](references/styling.md) | Colour, borders, shadows, fonts. The semantic vocabulary, selectors, and the scope rules that decide what a later block inherits |
 | [references/connectors.md](references/connectors.md) | Wiring blocks: `connect` modes, connector labels, what routing does and undoes |
 | [references/workflow.md](references/workflow.md) | The build loop, preflighting, diagnosing a surprising result, undo and history |
+| [references/cloud.md](references/cloud.md) | The hosted `nifdi` server: cloud ids, the editor link, the Pro plan and the read limit |
+| [references/local-workspace.md](references/local-workspace.md) | The local `nifdi-diagram` server: paths as ids, diagrams in the repository |
 
 ## Working habits that pay
 

@@ -110,8 +110,8 @@ Text cannot be measured or drawn without the typeface's bytes. **Inter, Assistan
 Noto Sans are built in** — the families nifdi's own content and shipped icon libraries use,
 so an ordinary diagram never asks you for a font.
 
-In an online local workspace, the server fetches another Google Fonts face the first time a
-diagram uses it. If that fetch is unavailable or the server is offline, the edit **fails and
+A server that is online — the hosted one always is — fetches another Google Fonts face the first
+time a diagram uses it. If that fetch is unavailable or the server is offline, the edit **fails and
 names the family and weight still owed** — it never silently substitutes Inter, because a
 diagram measured against a font it does not use has wrong wrap widths, wrong block sizes and
 wrong baselines everywhere.
@@ -122,9 +122,10 @@ deployment may withhold this process-global tool, so believe the advertised tool
 than assuming it exists. Reading is exempt — `get_diagram` on a diagram with missing fonts still
 works, which is how you find out what to supply.
 
-## What the diagram is on disk
+## What a diagram is stored as
 
-Diagrams persist as **augmented SVG** (`.nifdi.svg`): the canonical XML plus a rendered
-picture, so one file is both the editable model and a viewable image. `get_diagram` with
+Diagrams persist as **augmented SVG**: the canonical XML plus a rendered picture, so one
+document is both the editable model and a viewable image. The local server writes it to a
+`.nifdi.svg` file; the hosted one keeps it in the nifdi cloud. `get_diagram` with
 `format: "svg"` returns that self-contained form. Neither format is a picture you can look at
 in-band — for that, `render_diagram`.
