@@ -8,7 +8,7 @@
       "name": "nifdi",
       "source": {
         "source": "local",
-        "path": "./"
+        "path": "./plugins/nifdi"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -20,7 +20,7 @@
       "name": "nifdi-local",
       "source": {
         "source": "local",
-        "path": "./local"
+        "path": "./plugins/nifdi-local"
       },
       "policy": {
         "installation": "AVAILABLE",
