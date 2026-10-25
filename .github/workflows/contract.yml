@@ -31,7 +31,7 @@ jobs:
       - name: The pinned server must be published
         id: server
         run: |
-          spec=$(node -p "require('./local/.claude-plugin/plugin.json').mcpServers['nifdi-diagram'].args.at(-1)")
+          spec=$(node -p "require('./plugins/nifdi-local/.claude-plugin/plugin.json').mcpServers['nifdi-diagram'].args.at(-1)")
           npm view "$spec" version >/dev/null 2>&1 || {
             echo "::error::$spec is not published to npm. The manifest pins the server it installs, so the contract cannot run until that version is published."
             exit 1

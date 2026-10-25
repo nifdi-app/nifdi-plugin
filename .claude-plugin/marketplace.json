@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "nifdi",
-      "source": "./",
+      "source": "./plugins/nifdi",
       "description": "Author block-and-connector diagrams in the nifdi cloud, shared and edited live in the browser. Connects to the hosted nifdi MCP server (nifdi Pro, sign in with OAuth) and bundles the skills that teach the model, the placement grammar and the build loop.",
       "category": "productivity",
       "tags": [
@@ -21,7 +21,7 @@
     },
     {
       "name": "nifdi-local",
-      "source": "./local",
+      "source": "./plugins/nifdi-local",
       "description": "Author block-and-connector diagrams as code, as .nifdi.svg files in your project. Bundles the local nifdi MCP server with the skills that teach the model, the placement grammar and the build loop. No account needed.",
       "category": "productivity",
       "tags": [
