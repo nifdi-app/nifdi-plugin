@@ -152,8 +152,15 @@ portable manifests, Claude compatibility files, complete skills, and the licence
 individual plugin archive, not an archive of this marketplace repository. The release workflow
 publishes both plugin archives and retains `nifdi-plugin.zip` as the repository source bundle.
 
-Portable packaging does not complete OpenAI public review. Listing assets and URLs, reviewer
-materials, OAuth setup, domain verification, and server scans are separate submission work.
+Each plugin's `assets/` contains the full wordmark in a square and the compact nifdi app mark,
+with 1024 × 1024 PNG exports. OpenAI's `logo` and Claude's listing `icon` use `logo.png`;
+OpenAI's small `composerIcon` uses `icon.png`. Asset provenance is in `assets/README.md`;
+keep the hosted and local copies in sync. Public support, privacy and terms
+links live in the OpenAI `interface` and in the Claude manifest's corresponding listing fields.
+The support link currently opens the published support section of the Terms of Service.
+
+Portable packaging does not complete OpenAI public review. Reviewer materials, OAuth setup,
+domain verification, and server scans are separate submission work.
 
 ## What belongs in a provider skill
 

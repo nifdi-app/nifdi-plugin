@@ -23,7 +23,7 @@
     "com.openai": {
       "interface": {
         "displayName": "nifdi diagrams (local files)",
-        "shortDescription": "Editable diagrams as files in your project.",
+        "shortDescription": "Diagrams as files in your repo",
         "longDescription": "Create and edit structured architecture, flow, system and network diagrams as .nifdi.svg files in your project, with the local nifdi MCP server and diagram-authoring skills. No account needed.",
         "developerName": "Nifdi Systems Limited",
         "category": "Productivity",
@@ -35,7 +35,12 @@
           "Create a three-tier web architecture diagram.",
           "Recreate this image as an editable nifdi diagram.",
           "Improve the layout and styling of this nifdi diagram."
-        ]
+        ],
+        "supportURL": "https://nifdi.app/legal/terms#14-availability-and-support",
+        "privacyPolicyURL": "https://nifdi.app/legal/privacy",
+        "termsOfServiceURL": "https://nifdi.app/legal/terms",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/icon.png"
       }
     }
   }

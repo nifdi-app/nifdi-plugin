@@ -23,8 +23,8 @@
     "com.openai": {
       "interface": {
         "displayName": "nifdi diagrams",
-        "shortDescription": "Editable cloud diagrams, shared live in the browser.",
-        "longDescription": "Create and edit structured architecture, flow, system and network diagrams in the nifdi cloud, where they are shared and edited live in the browser. Connects to the hosted nifdi MCP server, part of nifdi Pro, and bundles diagram-authoring skills.",
+        "shortDescription": "Editable cloud diagrams",
+        "longDescription": "Create and edit structured architecture, flow, system and network diagrams in the nifdi cloud. Refine diagrams through follow-up requests, view rendered previews, and open the nifdi editor to edit and share them.",
         "developerName": "Nifdi Systems Limited",
         "category": "Productivity",
         "capabilities": [
@@ -35,7 +35,12 @@
           "Create a three-tier web architecture diagram.",
           "Recreate this image as an editable nifdi diagram.",
           "Improve the layout and styling of this nifdi diagram."
-        ]
+        ],
+        "supportURL": "https://nifdi.app/legal/terms#14-availability-and-support",
+        "privacyPolicyURL": "https://nifdi.app/legal/privacy",
+        "termsOfServiceURL": "https://nifdi.app/legal/terms",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/icon.png"
       }
     }
   }

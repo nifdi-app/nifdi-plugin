@@ -24,5 +24,10 @@
       "type": "http",
       "url": "https://nifdi.app/api/mcp"
     }
-  }
+  },
+  "icon": "./assets/logo.png",
+  "documentationUrl": "https://nifdi.app/docs/ai/skills-plugin",
+  "supportUrl": "https://nifdi.app/legal/terms#14-availability-and-support",
+  "privacyPolicyUrl": "https://nifdi.app/legal/privacy",
+  "termsOfServiceUrl": "https://nifdi.app/legal/terms"
 }
