@@ -10,7 +10,7 @@ export const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", ".."
 export const PLUGIN_DIRECTORIES = ["plugins/nifdi", "plugins/nifdi-local"];
 
 export async function readLocalManifest() {
-  return JSON.parse(await readFile(join(repoRoot, "plugins", "nifdi-local", ".claude-plugin", "plugin.json"), "utf8"));
+  return JSON.parse(await readFile(join(repoRoot, "plugins", "nifdi-local", "mcp.json"), "utf8"));
 }
 
 // The harness runs the server the manifest installs, so what CI proves and what

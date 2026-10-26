@@ -12,9 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # The README links releases/latest/download/nifdi-plugin.zip, so every
-      # release must carry an asset of exactly this name.
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: npm install --no-audit --no-fund
+      - run: npm run test:structure
+      - run: npm run package
+      # Preserve the source bundle for clients that copy skills directly.
       - run: git archive --format=zip --prefix=nifdi-plugin/ -o nifdi-plugin.zip HEAD
       - env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" nifdi-plugin.zip --title "nifdi $GITHUB_REF_NAME" --generate-notes
+        run: gh release create "$GITHUB_REF_NAME" dist/nifdi.zip dist/nifdi-local.zip nifdi-plugin.zip --title "nifdi $GITHUB_REF_NAME" --generate-notes
