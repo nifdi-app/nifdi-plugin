@@ -20,6 +20,13 @@ skills/nifdi/                     the core skill and its progressively loaded re
 test/                             contract CI for every fenced skill example
 ```
 
+Each plugin directory is a portable plugin root with `plugin.json`, `mcp.json`, and `skills/`.
+Edit OpenAI presentation settings in `plugin.json` under `extensions.com.openai.interface`.
+There is no `.codex-plugin/plugin.json`; portable clients discover the skills and MCP configuration
+from their fixed paths. Keep `.claude-plugin/plugin.json` and `.mcp.json` for Claude, with matching
+identity, version, and server configuration. The structure tests check that they agree, allowing
+for portable `streamable-http` versus Claude `http`, and portable explicit `stdio`.
+
 Edit the skills in `skills/` only. Each plugin's `skills/` is a copy, because each plugin is its
 own directory and no client reads a skill from outside it. No plugin may hold another, either:
 claude.ai refuses a plugin directory that contains a second `.claude-plugin/plugin.json`. After an
@@ -132,10 +139,28 @@ Constraints CI enforces:
   all.
 - `SKILL.md` body ≤500 lines. Move depth into `references/`.
 - `metadata.nifdi-mcp-version` matches the server pinned in
-  `plugins/nifdi-local/.claude-plugin/plugin.json`.
+  `plugins/nifdi-local/mcp.json`.
 
 Keep references one level deep from `SKILL.md`, and keep each one focused — an agent loads a
 whole reference file to answer one question.
+
+## Packaging
+
+Run `npm run package` (requires the `zip` command) to create `dist/nifdi.zip` and
+`dist/nifdi-local.zip` from the working files. Each archive contains one plugin folder, its
+portable manifests, Claude compatibility files, complete skills, and the licence. Upload an
+individual plugin archive, not an archive of this marketplace repository. The release workflow
+publishes both plugin archives and retains `nifdi-plugin.zip` as the repository source bundle.
+
+Each plugin's `assets/` contains the full wordmark in a square and the compact nifdi app mark,
+with 1024 × 1024 PNG exports. OpenAI's `logo` and Claude's listing `icon` use `logo.png`;
+OpenAI's small `composerIcon` uses `icon.png`. Asset provenance is in `assets/README.md`;
+keep the hosted and local copies in sync. Public support, privacy and terms
+links live in the OpenAI `interface` and in the Claude manifest's corresponding listing fields.
+The support link currently opens the published support section of the Terms of Service.
+
+Portable packaging does not complete OpenAI public review. Reviewer materials, OAuth setup,
+domain verification, and server scans are separate submission work.
 
 ## What belongs in a provider skill
 

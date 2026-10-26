@@ -53,7 +53,7 @@ describe("every skill is a valid Agent Skill", () => {
       assert.equal(
         fields.metadata?.["nifdi-mcp-version"],
         pinned,
-        `${file}: pins a different server version than plugins/nifdi-local/.claude-plugin/plugin.json`,
+        `${file}: pins a different server version than plugins/nifdi-local/mcp.json`,
       );
     }
   });
@@ -125,8 +125,16 @@ describe("the plugin manifests", () => {
     for (const plugin of PLUGINS) {
       const manifest = await readJson(plugin.directory, ".claude-plugin", "plugin.json");
       const mcp = await readJson(plugin.directory, ".mcp.json");
+      const portable = await readJson(plugin.directory, "mcp.json");
+      assert.equal(portable.$schema, "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json");
       assert.deepEqual(Object.keys(manifest.mcpServers), [plugin.server]);
       assert.deepEqual(mcp.mcpServers, manifest.mcpServers, `${plugin.directory}: .mcp.json and plugin.json differ`);
+      assert.deepEqual(Object.keys(portable.mcpServers), [plugin.server]);
+      const server = portable.mcpServers[plugin.server];
+      const {type, ...configuration} = server;
+      assert.equal(type, plugin.name === "nifdi" ? "streamable-http" : "stdio");
+      const compatible = type === "streamable-http" ? {type: "http", ...configuration} : configuration;
+      assert.deepEqual(compatible, mcp.mcpServers[plugin.server], `${plugin.directory}: portable and Claude MCP configurations differ`);
     }
   });
 
@@ -134,18 +142,26 @@ describe("the plugin manifests", () => {
     const versions = [(await readJson("package.json")).version];
     for (const plugin of PLUGINS) {
       versions.push((await readJson(plugin.directory, ".claude-plugin", "plugin.json")).version);
-      versions.push((await readJson(plugin.directory, ".codex-plugin", "plugin.json")).version);
+      versions.push((await readJson(plugin.directory, "plugin.json")).version);
     }
     assert.equal(new Set(versions).size, 1, `versions differ: ${versions.join(", ")}`);
   });
 
-  test("each Codex plugin installs the same skills and server as its Claude plugin", async () => {
+  test("each portable plugin declares its schema and keeps OpenAI settings in its extension", async () => {
     for (const plugin of PLUGINS) {
       const claude = await readJson(plugin.directory, ".claude-plugin", "plugin.json");
-      const codex = await readJson(plugin.directory, ".codex-plugin", "plugin.json");
-      assert.equal(codex.name, claude.name);
-      assert.equal(codex.skills, "./skills/");
-      assert.equal(codex.mcpServers, "./.mcp.json");
+      const portable = await readJson(plugin.directory, "plugin.json");
+      assert.equal(portable.$schema, "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json");
+      for (const key of ["name", "author", "homepage", "repository", "license", "keywords"]) {
+        assert.deepEqual(portable[key], claude[key], `${plugin.directory}: portable and Claude ${key} differ`);
+      }
+      assert.equal(portable.extensions["com.openai"].interface.displayName, claude.displayName);
+      for (const key of ["skills", "mcpServers", "interface"]) {
+        assert.equal(portable[key], undefined, `${plugin.directory}: ${key} is not a portable root field`);
+      }
+      assert.ok((await filesBelow(join(repoRoot, plugin.directory, "skills"))).includes("nifdi/SKILL.md"));
+      const legacy = join(repoRoot, plugin.directory, ".codex-plugin", "plugin.json");
+      await assert.rejects(readFile(legacy), {code: "ENOENT"});
     }
   });
 

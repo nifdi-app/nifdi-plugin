@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "nifdi-local",
+  "version": "0.3.0",
+  "description": "Create and edit structured block-and-connector diagrams as .nifdi.svg files in your project, with the local nifdi MCP server and authoring skills.",
+  "author": {
+    "name": "Nifdi Systems Limited",
+    "url": "https://nifdi.app"
+  },
+  "homepage": "https://nifdi.app",
+  "repository": "https://github.com/nifdi-app/nifdi-plugin",
+  "license": "Apache-2.0",
+  "keywords": [
+    "diagram",
+    "architecture",
+    "mcp",
+    "aws",
+    "azure",
+    "gcp",
+    "diagrams-as-code"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "nifdi diagrams (local files)",
+        "shortDescription": "Diagrams as files in your repo",
+        "longDescription": "Create and edit structured architecture, flow, system and network diagrams as .nifdi.svg files in your project, with the local nifdi MCP server and diagram-authoring skills. No account needed.",
+        "developerName": "Nifdi Systems Limited",
+        "category": "Productivity",
+        "capabilities": [
+          "Write"
+        ],
+        "websiteURL": "https://nifdi.app",
+        "defaultPrompt": [
+          "Create a three-tier web architecture diagram.",
+          "Recreate this image as an editable nifdi diagram.",
+          "Improve the layout and styling of this nifdi diagram."
+        ],
+        "supportURL": "https://nifdi.app/legal/terms#14-availability-and-support",
+        "privacyPolicyURL": "https://nifdi.app/legal/privacy",
+        "termsOfServiceURL": "https://nifdi.app/legal/terms",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/icon.png"
+      }
+    }
+  }
+}

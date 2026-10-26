@@ -5,8 +5,10 @@
 
 # nifdi™ — collaborative diagrams for you and your coding agent
 
-**[Download nifdi](https://github.com/nifdi-app/nifdi-plugin/releases/latest/download/nifdi-plugin.zip)**
-— the plugin's skills and manifests as a zip, or browse [all releases](https://github.com/nifdi-app/nifdi-plugin/releases).
+**[Download nifdi (hosted)](https://github.com/nifdi-app/nifdi-plugin/releases/latest/download/nifdi.zip)**
+or **[nifdi-local](https://github.com/nifdi-app/nifdi-plugin/releases/latest/download/nifdi-local.zip)**
+— one plugin per ZIP. Browse [all releases](https://github.com/nifdi-app/nifdi-plugin/releases)
+for the complete repository source bundle (`nifdi-plugin.zip`).
 
 Agent-led diagrams with fine-grained control. [nifdi](https://nifdi.app) gives
 coding agents tools to create and edit architecture, flow, system and network diagrams. It also
@@ -37,6 +39,16 @@ diagram-authoring skills.
 | `nifdi-local` | `.nifdi.svg` files in your project, which diff and merge like code | none |
 
 Install whichever you need, or both: the skills say which to use for what.
+
+Each plugin uses the portable [Agent Plugins format](https://developers.openai.com/plugins/build/plugins):
+`plugin.json` identifies it, `mcp.json` configures its server, and `skills/` contains its skills.
+OpenAI listing settings live in `plugin.json` under `extensions.com.openai.interface`.
+The `.claude-plugin/plugin.json` and `.mcp.json` files retain Claude compatibility.
+
+For ChatGPT web, the hosted plugin needs the public MCP submission and review flow.
+Directly importing a ZIP with MCP server declarations marks it Desktop only, even for an HTTPS
+server. To test the hosted tools on the web, use Add custom MCP server with
+`https://nifdi.app/api/mcp`. See the [OpenAI testing guide](https://developers.openai.com/plugins/deploy/connect-chatgpt).
 
 > **Upgrading from 0.2?** The plugin called `nifdi` used to be the local one. It now connects
 > to the hosted server. To keep working on files in your project, install `nifdi-local`, and
