@@ -111,3 +111,9 @@ correct as it changes. It also means:
   container too tight) rather than the line.
 - A connector attached to a side (`attach="right"`) is a hint about where it leaves the
   block, and the router honours it while it can.
+- In `set_diagram`, a pinned side is also a hint about where an unpositioned block goes:
+  `<from block="#a" attach="right"/>` with no `pos` on `#b` seeds `#b` to the right of `#a`,
+  centred on it, with room for the connector's label. Only the first placement uses it — a
+  block pinned to several neighbours lands beside the first one already placed, contradictory
+  pins keep the first, and blocks with no pinned connector still stack vertically. When the
+  arrangement matters, declare `pos`.
